@@ -1,0 +1,1 @@
+c:\platform-tools\adb.exe  -s A209FBC30202 install  bin\osymbols-0.3-arm64-v8a_armeabi-v7a-debug.apk

@@ -1,0 +1,242 @@
+
+#User ID
+    #:set h1fs  20
+    #:set s 2
+    #:set h mm(8)    
+    #:set bh mm(6)
+    #:set nfs h*.3
+    #:set s500x50 (mm(30), bh)
+    #:set s300x50 (300/s,50) 
+    #:set s290x50 (290/s,50)
+    #:set s200x50 (h*2,bh)
+    #:set s100x50 (100/s,50)
+    
+    
+<Label@Label>:
+    #canvas.before:
+    #    Color:
+    #        rgba: .5, .5, .5, .5
+    #    Line:
+    #        width: 2
+    #        rectangle: self.x, self.y, self.width, self.height
+    color: 0,0,0
+    
+    size: s200x50
+    size_hint: (None, None)
+    markup: True
+    #size: self.texture_size
+    font_size: nfs    
+<Button@Button>:
+    color:1,1,1,1
+    size: s200x50
+
+
+<Spinner@Spinner>:
+    size_hint:(None, None)
+    size: s500x50
+    color:1,1,1,1
+    font_size: nfs    
+
+<SpinnerOption@SpinnerOption>:
+    size:s290x50
+    
+<SettingsScreen>
+    #Label:
+    #    canvas.before:
+    #        Color:
+    #            rgba: .5, .5, .5, .5
+    #        Line:
+    #            width: 2
+    #            rectangle: self.x, self.y, self.width, self.height
+    #    text: "4x2cm"
+    #    size: cm(4),cm(2)
+    BoxLayout:
+        FloatLayout:
+            size_hint:(.1,None)
+            
+        BoxLayout:
+            orientation: 'vertical'        
+            Label:
+                text: "O-signatur - det dur"
+                size: s500x50
+            GridLayout:
+                cols:2
+                padding: 10
+                spacing: 5
+                Label:
+                    text: 'Sprog'
+                Spinner:
+                    id: languageSpinner
+                    text: 'Dansk'
+        
+                Label:
+                    text: 'Norm'
+                Spinner:
+                    id: normSpinner
+                    text: "ISOM 2017-2"
+                
+                Label:
+                    text: 'Kategori'
+                Spinner:
+                    id: categorySpinner
+                    text: '<Vælg>'
+                    on_text: root.set_N_options()
+                    
+                Label:
+                    text: 'Antal'
+                Spinner:
+                    id: nSpinner
+                    text: '1'
+                Label:
+                Button:
+                    id: startButton
+                    text:'Start' 
+                    # disabled:True
+                    on_press:root.start()      
+        FloatLayout:
+            size_hint:(.1,None)
+        
+<Answer>:
+    size_hint:(1,None)
+    height: h
+    spacing:mm(1)
+        
+    FloatLayout:
+    BoxLayout:
+        size:(h/2,h)
+        size_hint:(None,None)    
+        orientation: 'vertical'
+        FloatLayout:
+        Image:
+            id:statusImage
+            source: 'graphics/correct.png'
+            size_hint:(None,None)
+            size:(h/2,h/2)
+            #pos:-25,-25
+        FloatLayout:
+    
+    Image:
+        canvas.before:
+            Color:
+                rgba: .5, .5, .5, .5
+            Line:
+                width: 2
+                rectangle: self.x, self.y, self.width, self.height
+                
+    
+        id:symbolImage
+        source: 'symbols/ISOM 2017-2/401.png'
+        size_hint:(None,None)
+        size:(2*h, h)
+        pos:0,0
+        
+    Label:
+        #canvas.before:
+        #    Color:
+        #        rgba: 1, 0,0,1
+        #    Line:
+        #        width: 1
+        #        rectangle: self.x, self.y, self.width, self.height   
+        id:symbolLabel
+        size_hint:(10, 1)
+        color: 0,0,0
+        text_size: self.size
+        #size:(10*h,h)
+        text:'Svært gennemløbelig skov vist med bedre gennemløbsretning'
+        valign:'center'
+      
+    FloatLayout:
+        
+<QuizScreen>:
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba: .5, .5, .5, .5
+            Line:
+                width: 10
+                rectangle: self.x, self.y, self.width, self.height
+        orientation:'vertical'
+        size_hint:(1,1)   
+        spacing: 10
+        padding: 10
+        BoxLayout:
+            size_hint:(1,None)
+            height: h
+            padding: 10
+            spacing: 10
+            # Label:
+            #    id:resultLabel
+            #    text: "0/10"
+            #    size: (50,50)
+            ProgressBar:
+                id: quiz_ProgressBar
+                value: 50
+                max: 100
+                height: (50)
+            Button:
+                id: StopButton
+                text:'Afbryd' 
+                size: s200x50
+                
+                #disabled:True
+                on_press: root.back()
+
+
+        BoxLayout:
+            size_hint:(1,None)
+            height:(100)
+            padding:10
+            spacing: 15
+            Label:
+                id: questionLabel
+                text: "Svært gennemløbelig skov vist med bedre gennemløbsretning"
+                size_hint:(1,0)
+                height:(100)
+                text_size: self.size
+                halign:'center'
+                             
+        Answer:
+            id: answer1
+        Answer:
+            id: answer2
+        Answer:
+            id: answer3
+        Answer:
+            id: answer4
+        Answer:
+            id: answer5          
+        BoxLayout:
+            size_hint:(1,None)
+            height:bh
+            FloatLayout:    
+            Button:
+                id: nextButton
+                text:'Næste' 
+                disabled:True
+                on_press: root.next_question()       
+            FloatLayout:
+        FloatLayout:
+            size_hint:(1,1)
+        
+        
+
+<ResultContents>:
+    message: "message"
+    auto_dismiss: False
+    title: "Error"
+    size_hint: None, None
+    
+
+    Label:
+        text: 'Du har svaret rigtigt på\\n 5 ud af 5'
+        id: resultLabel
+        #size: ((200),(100))
+        color:1,1,1
+        halign:'center'
+        pos_hint: {"x":0.2, "top":1}
+
+    Button:
+        id:closeButton
+        text: "Luk"
+        size_hint: 0.8, 0.2
+        pos_hint: {"x":0.1, "y":0.1}
